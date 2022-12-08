@@ -12,3 +12,4 @@ def user():
     return 'Вы передали: ' + name
 app.add_url_rule('/user', view_func=user)
 app.run(debug=True)
+# привет от Карима
