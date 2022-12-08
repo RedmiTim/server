@@ -13,3 +13,4 @@ def user():
 app.add_url_rule('/user', view_func=user)
 app.run(debug=True)
 # привет от Карима
+# и от хасанова
