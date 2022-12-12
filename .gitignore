@@ -65,3 +65,6 @@ ENV/
 
 *.xml
 .idea/
+
+#sqlite databases
+*.db

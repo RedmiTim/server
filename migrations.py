@@ -1,9 +1,11 @@
-from database import connect
+import sqlite3
+import mysql.connector
 
+from database import connect
 
 migrations = [
     '''
-    CREATE TABLE MIGRATIONS(
+    CREATE TABLE migrations(
         version INT NOT NULL PRIMARY KEY
     )
     ''',
@@ -20,5 +22,12 @@ migrations = [
 
 def migrate():
     with connect() as db:
-        max_migration = db.execute('SELECT MAX(version) FROM migrations').fetchall()
-        print(max_migration)
+        try:
+            current_migration = int(db.execute('SELECT MAX(version) FROM migrations').fetchall()[0][0]) + 1
+        except sqlite3.OperationalError:
+            current_migration = 0
+        except mysql.connector.DatabaseError:
+            current_migration = 0
+        for migration_version in range(current_migration, len(migrations)):
+            db.execute(migrations[migration_version])
+            db.execute(f'INSERT INTO migrations VALUES({migration_version})')
