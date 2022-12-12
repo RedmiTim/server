@@ -17,6 +17,16 @@ migrations = [
         PRIMARY KEY (user_id, id)
     )
     ''',
+    'ALTER TABLE islands DROP COLUMN units_json',
+    '',
+    '''
+    CREATE TABLE island_units(
+        island_id INT NOT NULL,
+        x INT NOT NULL,
+        y INT NOT NULL,
+        health INT
+    )
+    '''
 ]
 
 

@@ -15,6 +15,3 @@ def connect():
         return sqlite3.connect(database)
     print(f'ERROR: Unknown database type: {db_type}')
 
-
-del sqlite3
-del mysql.connector
