@@ -1,4 +1,4 @@
-from sqlite3 import connect as connect_lite
+import sqlite3
 import mysql.connector
 
 db_type = 'sqlite'
@@ -12,5 +12,9 @@ def connect():
     if db_type == 'mysql':
         return mysql.connector.connect(host=host, database=database, user=user, password=password)
     elif db_type == 'sqlite':
-        return connect_lite(database)
+        return sqlite3.connect(database)
     print(f'ERROR: Unknown database type: {db_type}')
+
+
+del sqlite3
+del mysql.connector
