@@ -26,7 +26,10 @@ migrations = [
         y INT NOT NULL,
         health INT
     )
-    '''
+    ''',
+    'ALTER TABLE islands ADD COLUMN map_id INTEGER NOT NULL',
+    'ALTER TABLE island_units ADD COLUMN user_id INTEGER NOT NULL',
+    'ALTER TABLE island_units ADD COLUMN name VARCHAR NOT NULL',
 ]
 
 
@@ -39,5 +42,6 @@ def migrate():
         except mysql.connector.DatabaseError:
             current_migration = 0
         for migration_version in range(current_migration, len(migrations)):
+            print('migration ' + migrations[migration_version])
             db.execute(migrations[migration_version])
             db.execute(f'INSERT INTO migrations VALUES({migration_version})')

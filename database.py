@@ -3,7 +3,7 @@ import mysql.connector
 
 db_type = 'sqlite'
 host = ''
-database = 'localdatabase.db'
+database = 'local_database.db'
 user = ''
 password = ''
 
