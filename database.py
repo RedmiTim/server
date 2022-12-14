@@ -1,11 +1,21 @@
 import sqlite3
 import mysql.connector
 
-db_type = 'sqlite'
+
+db_type = ''
 host = ''
-database = 'local_database.db'
+database = ''
 user = ''
 password = ''
+
+
+def load(env):
+    global db_type, host, database, user, password
+    db_type = env.get('DATABASE_TYPE')
+    host = env.get('DATABASE_HOST')
+    database = env.get('DATABASE')
+    user = env.get('DATABASE_USER')
+    password = env.get('DATABASE_PASSWORD')
 
 
 def connect():

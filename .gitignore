@@ -57,7 +57,7 @@ instance/
 .webassets-cache
 
 # dotenv
-.env
+*.env
 
 # virtualenv
 venv/

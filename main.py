@@ -2,7 +2,13 @@ import flask
 import migrations
 import islands.routes
 from exceptions.types import EntityNotFoundError
+from database import load
+from os import environ
+import dotenv
 
+
+dotenv.load_dotenv('variables.env')
+load(environ)
 migrations.migrate()
 
 app = flask.Flask(__name__)
