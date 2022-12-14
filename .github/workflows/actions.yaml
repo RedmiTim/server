@@ -13,4 +13,4 @@ jobs:
         server: ftp.ha003.justhost.ru
         username: s488043
         password: Z6btjYKy
-        server-dir: domains/s488043.ha003.t.justns.ru/public_html/
+        server-dir: 0:/domains/s488043.ha003.t.justns.ru/public_html/
