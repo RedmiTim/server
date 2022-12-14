@@ -12,5 +12,5 @@ jobs:
       with:
         server: ftp.ha003.justhost.ru
         username: s488043
-        password: Z6btjYKy
+        password: 2hbSwS8RhA
         server-dir: public_html/
