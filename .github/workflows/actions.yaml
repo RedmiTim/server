@@ -1,0 +1,15 @@
+on: push
+name: Deploy
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v2
+
+    - name: Deploy via ftp
+      uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      with:
+        server: ftp.ha003.justhost.ru
+        username: s488043
+        password: Z6btjYKy
