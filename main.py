@@ -1,15 +1,17 @@
 import random
 import storage
-l=random.randint(1,1000000)
-b=str(l)
-d=input('Введите никнейм')
-s=storage.create_user(d,b)
 import flask
 app = flask.Flask(__name__)
+
+
 def user():
+    id0 = random.randint(1, 1000000)
+    id = str(id0)
     name = flask.request.data.decode()
-    k=storage.create_user(name)
-    return 'Вы передали: ' + name
+    enter_in_file = storage.create_user(name, id)
+    return 'Юзер создан'
+
+
 app.add_url_rule('/user', view_func=user, methods=['POST'])
 app.run(debug=True)
 # привет от Карима
