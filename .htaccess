@@ -1,0 +1,8 @@
+Options -Indexes +ExecCGI
+AddHandler cgi-script .py
+DirectoryIndex run.py
+
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !run.py
+RewriteRule ^(.*)$ run.py/$1 [L]
