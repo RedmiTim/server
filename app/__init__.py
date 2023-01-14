@@ -16,7 +16,7 @@ load_dotenv('.env')
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
 db.init_app(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, compare_type=True)
 app.config['db'] = db
 app.register_blueprint(islands)
 app.register_blueprint(users)
