@@ -6,7 +6,7 @@ db = SQLAlchemy()
 user = db.Table(
     'user',
     Column('id', Integer, nullable=False, primary_key=True),
-    Column('nickname', String, nullable=False)
+    Column('nickname', String(length=100), nullable=False)
 )
 
 island = db.Table(
