@@ -1,23 +1,26 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
+from sqlalchemy import and_
+from sqlalchemy.sql import exists
+
+from app.tables import user, island, unit
 
 blueprint = Blueprint('islands', __name__)
 
 
-@blueprint.get('/')
-def test():
-    return 'test'
-
-
-@blueprint.post('/<user_id>/islands')
-def create_user_islands(user_id):
-    # islands.storage.create_user_islands(int(user_id))
-    return 'islands created', 201
-
-
 @blueprint.get('/<user_id>/islands')
 def get_user_islands(user_id):
-    pass
-    # return islands.storage.get_user_islands(int(user_id))
+    db = current_app.config['db']
+    u_id = int(user_id)
+    if not db.session.query(exists(user.select().where(user.c.id == u_id))).scalar():
+        return 'User not found', 404
+    result = db.session.execute(island.select().where(island.c.user_id == u_id))
+    return list(map(lambda i:
+                    {'id': i.id,
+                     'map_id': i.map_id,
+                     'units': list(
+                         map(lambda un: {'x': un.x, 'y': un.y},
+                             db.session.execute(unit.select().where(and_(unit.c.user_id == u_id, unit.c.island_id == i.id))))
+                     )}, result))
 
 
 @blueprint.get('/<user_id>/islands/attackable')
