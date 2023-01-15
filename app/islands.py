@@ -19,30 +19,38 @@ def map_islands(db, cursor, user_id):
 
 
 @blueprint.get('/<user_id>/islands')
-def get_user_islands(user_id):
+def get_user_islands_ids(user_id):
     db = current_app.config['db']
     u_id = int(user_id)
     if not db.session.query(exists(user.select().where(user.c.id == u_id))).scalar():
         return 'User not found', 404
-    result = db.session.execute(island.select().where(island.c.user_id == u_id))
-    return map_islands(db, result, u_id)
+    result = db.session.execute(db.select([island.c.id]).where(island.c.user_id == u_id)).all()
+    return list(map(lambda i: i.id, result))
 
 
 @blueprint.get('/<user_id>/islands/attackable')
-def get_attackable_islands(user_id):
+def get_attackable_islands_ids(user_id):
     db = current_app.config['db']
     u_id = int(user_id)
-    current_user = db.session.execute(db.select([user.c.nickname, user.c.id]).where(user.c.id == user_id)).first()
-    if current_user is None:
+    if not db.session.query(exists(user.select().where(user.c.id == u_id))).scalar():
         return 'User not found', 404
-    result = db.session.execute(island.select().where(island.c.user_id != u_id))
-    return map_islands(db, result, u_id)
+    result = db.session.execute(db.select([island.c.id]).where(island.c.user_id != u_id)).all()
+    return list(map(lambda i: i.id, result))
 
 
-@blueprint.get('/<user_id>/islands/<island_id>')
-def get_island(user_id, island_id):
-    pass
-    # return islands.storage.get_island(int(user_id), int(island_id))
+@blueprint.get('/islands/<island_id>')
+def get_island(island_id):
+    db = current_app.config['db']
+    result = db.session.execute(island.select().where(island.c.id == island_id)).first()
+    if result is None:
+        return 'Island not found', 404
+    return {
+        'map_id': result.map_id,
+        'units': list(
+            map(lambda un: {'name': un.name, 'x': un.x, 'y': un.y},
+                db.session.execute(
+                    unit.select().where(and_(unit.c.island_id == island_id))))
+        )}
 
 
 @blueprint.put('/<user_id>/islands/<island_id>')

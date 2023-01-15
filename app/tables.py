@@ -11,15 +11,15 @@ user = db.Table(
 
 island = db.Table(
     'island',
-    Column('user_id', Integer, ForeignKey('user.id'), nullable=False, primary_key=True),
     Column('id', Integer, nullable=False, primary_key=True),
+    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('map_id', Integer, nullable=False),
 )
 
 unit = db.Table(
-    'island_units',
+    'unit',
     Column('island_id', Integer, ForeignKey('island.id'), nullable=False),
-    Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
+    Column('name', String(length=50), nullable=False),
     Column('x', Integer, nullable=False),
     Column('y', Integer, nullable=False),
     Column('health', Integer),

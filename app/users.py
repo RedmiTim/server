@@ -10,10 +10,16 @@ blueprint = Blueprint('users', __name__)
 def create_user():
     db = current_app.config['db']
     user_id = db.session.execute(user.insert().values(nickname=request.json['nickname'])).inserted_primary_key[0]
-    db.session.execute(island.insert().values(user_id=user_id, id=1, map_id=start_island['map_id']))
-    db.session.execute(unit.insert(),
-                       list(map(lambda un: {'user_id': user_id, 'island_id': 1, 'x': un['x'], 'y': un['y']},
-                                start_island['units'])))
+    island_id = db.session.execute(
+        island.insert().values(user_id=user_id, map_id=start_island['map_id'])).inserted_primary_key[0]
+    db.session.execute(
+        unit.insert(),
+        list(map(lambda un: {
+            'user_id': user_id,
+            'island_id': island_id,
+            'x': un['x'], 'y': un['y'],
+            'name': un['name']
+        }, start_island['units'])))
     db.session.commit()
     return {'status': 'created', 'id': str(user_id)}, 201, {'Location': '/' + str(user_id)}
 
