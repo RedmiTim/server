@@ -4,7 +4,6 @@ import sys
 from flask import Flask
 from flask.cli import load_dotenv
 from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 from .islands import blueprint as islands
 from .tables import db
 from .users import blueprint as users

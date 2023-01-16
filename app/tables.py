@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, ForeignKey, String
+from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 
 db = SQLAlchemy()
 
@@ -14,6 +14,7 @@ island = db.Table(
     Column('id', Integer, nullable=False, primary_key=True),
     Column('user_id', Integer, ForeignKey('user.id'), nullable=False),
     Column('map_id', Integer, nullable=False),
+    Column('attacked_on', DateTime)
 )
 
 unit = db.Table(

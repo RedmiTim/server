@@ -15,7 +15,6 @@ def create_user():
     db.session.execute(
         unit.insert(),
         list(map(lambda un: {
-            'user_id': user_id,
             'island_id': island_id,
             'x': un['x'], 'y': un['y'],
             'name': un['name']
