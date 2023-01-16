@@ -33,8 +33,9 @@ def get_user_islands_ids(user_id):
 @blueprint.get('/<user_id>/islands/attackable')
 def get_attackable_islands_ids(user_id):
     db = current_app.config['db']
-    db.session.execute(island.update().where(island.c.attacked_on > datetime.now() - timedelta(minutes=15))
+    db.session.execute(island.update().where(island.c.attacked_on < datetime.now() - timedelta(minutes=15))
                        .values(attacked_on=None))
+    db.session.commit()
     u_id = int(user_id)
     if not db.session.query(exists(user.select().where(user.c.id == u_id))).scalar():
         return 'User not found', 404
