@@ -39,7 +39,7 @@ def get_attackable_islands_ids(user_id):
     if not db.session.query(exists(user.select().where(user.c.id == u_id))).scalar():
         return 'User not found', 404
     result = db.session.execute(db.select([island.c.id])
-                                .where(and_(island.c.user_id != u_id, island.c.id.is_(None)))).all()
+                                .where(and_(island.c.user_id != u_id, island.c.attacked_on.is_(None)))).all()
     return list(map(lambda i: i.id, result))
 
 
